@@ -25,7 +25,7 @@
                 <a class="mui-navigate-right" href="#account">
                     <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../images/user.jpg">
                     <div class="mui-media-body">
-                        Hello MUI
+                        <span class="name"></span>
                         <p class="mui-ellipsis">账号:hellomui</p>
                     </div>
                 </a>
@@ -43,7 +43,7 @@
             </li>
         </ul>
         <div class="p20">
-            <a href="login.html" class="mui-btn btn_outLogin">退出登录</a>
+            <a href="javascript:;" class="mui-btn btn_outLogin">退出登录</a>
         </div>
     </div>
     <footer class="cz_tabs">
@@ -63,17 +63,36 @@
         // 3. 没有登录，跳转；登录，显示用户信息
 
         $.ajax({
-            url: 'http://localhost:3000/user/queryUserMessage',
+            url: '/api/user/queryUserMessage',
             type: 'get',
-            xhrFields: {
-                // 让浏览器发送跨域发送cookie
-                withCredentials: true
-            },
+            // xhrFields: {
+            //     // 让浏览器发送跨域发送cookie
+            //     withCredentials: true
+            // },
             success: function (info) {
                 console.log(info);
+                // 如果请求到数据，则认为已登录
+                $('span.name').text(info.username);
+                // 如果没有请求到数据，跳转
+                if(info.error) {
+                    location.href = '/user/login.html';
+                }
             }
         });
-    
+            
+
+        // 退出登录
+        $('.btn_outLogin').on('click',function() {
+            $.ajax({
+                url: '/api/user/logout',
+                type: 'get',
+                success: function(info) {
+                    if (info.success) {
+                        location.href = '/index.html'
+                    } 
+                }
+            })
+        })
     </script>
 </body>
 </html>
