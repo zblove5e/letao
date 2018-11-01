@@ -57,6 +57,26 @@
     <script src="../res/mui/js/mui.min.js"></script>
     <script>
 
+        // 根据地址上的参数 url  来确定登录成功后跳转到哪里
+        // 1. 获取地址参数
+        var search = location.search.slice(1);
+        // 2. 采用正则表达式讲url地址的值去除
+        var reg = /url=(.+)/;
+        // 3. 匹配
+        var match = reg.exec(search);
+        console.log(match);
+        
+        // 正则匹配成功为 数组   不成功 null
+        // if (match) {
+        //     match[1]
+        // } else {
+        //     index.html
+        // }
+        
+        // 获取到的地址
+        var url = match && match[1]
+        url = url || '/index.html';
+
         // 登录逻辑
         // 1. 获取用户输入的表单信息
         // 2. 提交数据到服务端
@@ -78,7 +98,7 @@
                 success: function (info) {
                     console.log(info);
                     if (info.success) {
-                        location.href = '../index.html';
+                        location.href = url;
                     }
                 }
             })

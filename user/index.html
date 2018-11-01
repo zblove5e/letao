@@ -75,7 +75,7 @@
                 $('span.name').text(info.username);
                 // 如果没有请求到数据，跳转
                 if(info.error) {
-                    location.href = '/user/login.html';
+                    location.href = '/user/login.html?url=' + location.href;
                 }
             }
         });
